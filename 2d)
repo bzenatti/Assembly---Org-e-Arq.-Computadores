@@ -1,0 +1,58 @@
+%include "io.inc"
+
+section .text
+    global CMAIN
+
+CMAIN:
+    mov ebp, esp  ; Debug
+    call bubble_sort
+
+    ; Exibe o vetor ordenado
+    call print_array
+
+    ; Finaliza o programa
+    mov eax, 1
+    xor ebx, ebx
+    ret
+
+; Função para imprimir vetor
+print_array:
+    mov edx, 0
+print_loop:
+    mov eax, [nums + edx * 4]
+    PRINT_DEC 4, eax
+    PRINT_CHAR ' '
+
+    inc edx
+    cmp edx, count
+    jl print_loop
+
+    ret
+
+bubble_sort:
+    mov ecx, count
+loop_i:
+    mov edx, 1
+loop_j:
+    mov eax, [nums + edx * 4]       ;[i]
+    mov ebx, [nums + (edx - 1) * 4] ;[i-1]
+
+    cmp eax, ebx                    
+    jg continue                     ;Se [i] > [i-1]
+    jmp swap                        ;Senao
+
+swap:
+    mov [nums + edx * 4], ebx
+    mov [nums + (edx - 1) * 4], eax
+
+continue:
+    inc edx
+    cmp edx, ecx
+    jl loop_j
+
+    loop loop_i
+    ret
+
+ section .data
+    nums: DD 7,-3,9,1,8,2,5,5,3,6,0,-1,-2
+    count equ  13

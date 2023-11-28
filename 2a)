@@ -1,0 +1,49 @@
+%include "io.inc"
+
+section .text
+global CMAIN
+CMAIN:
+    mov ecx,0
+    GET_DEC 2, ecx
+    jmp verifica1
+
+verifica1:          ; Se % 4 == 0
+    mov eax, ecx
+    mov ebx, 4
+    xor edx, edx
+    idiv ebx
+    cmp edx, 0
+    jnz verifica3
+    jz verifica2
+
+verifica2:          ; Se % 100 != 0
+    mov eax, ecx
+    mov ebx, 100
+    xor edx, edx
+    idiv ebx
+    cmp edx, 0
+    jnz bissexto
+    jz verifica3
+
+verifica3:          ; Se % 400 == 0
+    mov eax, ecx
+    mov ebx, 400
+    xor edx, edx
+    idiv ebx
+    cmp edx, 0
+    jnz n_bissexto
+    jz bissexto
+
+n_bissexto:
+    PRINT_STRING msg2
+    xor eax, eax
+    ret
+bissexto:
+    PRINT_STRING msg1
+    xor eax, eax
+    ret
+
+
+section .data
+    msg1 db "Eh bissexto ", 0
+    msg2 db "Nao eh bissexto ", 0

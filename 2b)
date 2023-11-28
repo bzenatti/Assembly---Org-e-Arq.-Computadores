@@ -1,0 +1,38 @@
+%include "io.inc"
+
+section .text
+global CMAIN
+
+CMAIN:
+    mov ecx,0
+    GET_DEC 2, ecx
+    cmp ecx, 0
+    jz zero
+    jnz testaPositivo
+
+testaPositivo:
+    test ecx, 0x80000000		;Testa com mascara
+    jnz  positivo
+    jz negativo
+
+zero:
+    PRINT_STRING msg3
+    xor eax, eax
+    ret
+
+positivo:
+    PRINT_STRING msg1
+    xor eax, eax
+    ret
+
+negativo:
+    PRINT_STRING msg2
+    xor eax, eax
+    ret
+
+
+
+section .data
+    msg1 db "Negativo ", 0
+    msg2 db "Positivo", 0
+    msg3 db "Zero", 0

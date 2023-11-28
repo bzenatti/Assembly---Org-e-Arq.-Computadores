@@ -1,0 +1,20 @@
+%include "io.inc"
+
+section .text
+global CMAIN
+CMAIN:
+    mov ecx, 0
+    loop:
+        cmp ecx, 100
+        jge return
+        PRINT_STRING msg
+        PRINT_DEC 2, ecx
+        NEWLINE
+        inc ecx
+        jmp loop
+    return:
+    xor eax, eax
+    ret
+
+section .data
+    msg db "i equals ", 0

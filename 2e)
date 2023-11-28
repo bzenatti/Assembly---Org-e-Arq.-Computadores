@@ -1,0 +1,21 @@
+%include "io.inc"
+
+section .text
+global CMAIN
+CMAIN:
+    mov ebp, esp; Debug
+    mov eax, [nums] ; Define o maior como o primeiro elemento
+
+    mov ecx, count
+    for_i:
+        cmp [nums + ecx * 4], eax   ; Se o elemento atual for maior que eax
+        cmova eax, [nums + ecx * 4] ; Troca eax com o atual
+        loop for_i
+
+    PRINT_DEC 4, eax ; Printa o maior valor
+    xor eax, eax
+    ret
+
+section .data
+    nums: DD 3,7,9,1,8,2,4,5,3,6,1, 12, 32, 54, 22, 24, 31, 19, 3, 0
+    count equ  19; N -1
